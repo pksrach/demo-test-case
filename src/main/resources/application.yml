@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    application-display-name: Spring Boot Application Demo Test Case
+
+spring:
+  profiles:
+    active: dev
+  devtools:
+    add-properties: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo-test-case
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+logging:
+  level:
+    web: off
+    sql: debug

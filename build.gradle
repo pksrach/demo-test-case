@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = 'com.samrach.demo.testcase'
+version = '0.0.1-SNAPSHOT'
+
+java {
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring DevTools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(17)
+}
