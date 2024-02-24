@@ -13,6 +13,14 @@ import java.util.Map;
 
 @ControllerAdvice
 public class RestExceptionHandlerController {
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+        return new ResponseEntity<>(
+                Map.of("message", e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
     @ExceptionHandler(value = Exception.class)
     public BaseResponse<Object> handleException(Exception e) {
         return new BaseResponse<>(

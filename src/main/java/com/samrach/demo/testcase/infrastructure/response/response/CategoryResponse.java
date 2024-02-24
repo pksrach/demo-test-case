@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 
 @Data
 public class CategoryResponse {
+    private Long id;
     private String name;
     private String description;
 
     public static CategoryResponse fromEntity(CategoryEntity entity) {
         CategoryResponse response = new CategoryResponse();
+        response.setId(entity.getId());
         response.setName(entity.getName());
         response.setDescription(entity.getDescription());
         return response;

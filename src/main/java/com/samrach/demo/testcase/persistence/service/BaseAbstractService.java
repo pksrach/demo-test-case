@@ -19,11 +19,6 @@ public abstract class BaseAbstractService<T extends BaseRequest<E>, E, ID> imple
     }
 
     @Override
-    public E update(ID id, T request) {
-        return repository.save(request.toEntity());
-    }
-
-    @Override
     public void delete(ID id) {
         repository.deleteById(id);
     }

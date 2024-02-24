@@ -16,4 +16,16 @@ public class IndexController {
                 Map.of("health", "good")
         );
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<Object> info() {
+        return ResponseEntity.ok(
+                Map.of(
+                        "application", "Test Case Application",
+                        "version", "1.0.0",
+                        "description", "This is a simple application for testing purposes",
+                        "author", "Samrach"
+                )
+        );
+    }
 }
