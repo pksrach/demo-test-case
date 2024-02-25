@@ -52,28 +52,22 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseBody<CategoryResponse> create(
+    public ResponseEntity<Object> create(
             @RequestBody CategoryRequest request
     ) {
         CategoryEntity data = categoryService.create(request);
 
-        return new ResponseBody<>(
-                CategoryResponse.fromEntity(data),
-                "Category created successfully"
-        );
+        return ResponseEntity.ok(data);
     }
 
     @PutMapping("/{id}")
-    public ResponseBody<CategoryResponse> update(
+    public ResponseEntity<Object> update(
             @PathVariable Long id,
             @RequestBody CategoryRequest request
     ) {
         CategoryEntity data = categoryService.update(id, request);
 
-        return new ResponseBody<>(
-                CategoryResponse.fromEntity(data),
-                "Category updated successfully"
-        );
+        return ResponseEntity.ok(data);
     }
 
     @DeleteMapping("/{id}")

@@ -2,6 +2,7 @@ package com.samrach.demo.testcase;
 
 import com.samrach.demo.testcase.controller.CategoryController;
 import com.samrach.demo.testcase.infrastructure.entity.CategoryEntity;
+import com.samrach.demo.testcase.infrastructure.request.category.CategoryRequest;
 import com.samrach.demo.testcase.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -77,4 +78,29 @@ public class CategoryUnitTest {
         assert categoryEntity != null;
         Assertions.assertEquals(categoryEntity.getName(), category.get().getName(), "Name of list is not equal to name of okResult");
     }
+
+    // Method create category
+    @Test
+    public void createCategory() {
+        // Arrange
+        var categoryEntity = new CategoryEntity(3L, "Snack", "Details about Snack");
+        Mockito.when(mockService.create(Mockito.any())).thenReturn(categoryEntity);
+        var controller = new CategoryController(mockService);
+
+        // Action
+        var result = controller.create(new CategoryRequest("Snack", "Details about Snack"));
+        var okResult = result.getBody();
+
+        // Assert
+        Assertions.assertNotNull(result);
+
+        Assertions.assertEquals(200, result.getStatusCode().value());
+
+        Assertions.assertInstanceOf(CategoryEntity.class, okResult, "okResult is not an instance of CategoryEntity");
+
+
+        Assertions.assertEquals(categoryEntity.getName(), ((CategoryEntity) okResult).getName(), "Name of list is not equal to name of okResult");
+    }
+
+    // Method update category
 }

@@ -12,6 +12,14 @@ public class CategoryRequest extends BaseRequest<CategoryEntity> {
     private String name;
     private String description;
 
+    public CategoryRequest(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public CategoryRequest() {
+    }
+
     @Override
     public CategoryEntity toEntity() {
         return new CategoryEntity(name, description);
