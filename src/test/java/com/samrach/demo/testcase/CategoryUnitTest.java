@@ -47,11 +47,15 @@ public class CategoryUnitTest {
         Assertions.assertNotNull(result);
         Assertions.assertInstanceOf(List.class, okResult, "okResult is not an instance of List<CategoryEntity>");
 
-        Assertions.assertEquals(list.size(), ((List<CategoryEntity>) okResult).size(), "Size of list is not equal to size of okResult");
+        @SuppressWarnings("unchecked")
+        var okResult1 = ((List<CategoryEntity>) okResult);
+        Assertions.assertEquals(list.size(), okResult1.size(), "Size of list is not equal to size of okResult");
 
         Assertions.assertEquals(200, result.getStatusCode().value());
 
-        Assertions.assertEquals(list.get(0).getName(), ((List<CategoryEntity>) okResult).get(0).getName(), "Name of list is not equal to name of okResult");
+        @SuppressWarnings("unchecked")
+        var okResult2 = (List<CategoryEntity>) okResult;
+        Assertions.assertEquals(list.get(0).getName(), okResult2.get(0).getName(), "Name of list is not equal to name of okResult");
     }
 
     // Method get category by id
@@ -74,6 +78,7 @@ public class CategoryUnitTest {
 
         Assertions.assertInstanceOf(Optional.class, okResult, "okResult is not an instance of CategoryEntity");
 
+        @SuppressWarnings("unchecked")
         var category = (Optional<CategoryEntity>) okResult;
         assert categoryEntity != null;
         Assertions.assertEquals(categoryEntity.getName(), category.get().getName(), "Name of list is not equal to name of okResult");
@@ -94,7 +99,7 @@ public class CategoryUnitTest {
         // Assert
         Assertions.assertNotNull(result);
 
-        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertEquals(201, result.getStatusCode().value());
 
         Assertions.assertInstanceOf(CategoryEntity.class, okResult, "okResult is not an instance of CategoryEntity");
 
@@ -103,4 +108,42 @@ public class CategoryUnitTest {
     }
 
     // Method update category
+    @Test
+    public void updateCategory(){
+        // Arrange
+        Long id = 1L;
+        var categoryEntity = new CategoryEntity(id, "Updated Food", "Updated Details about Food");
+        Mockito.when(mockService.update(Mockito.eq(id), Mockito.any())).thenReturn(categoryEntity);
+        var controller = new CategoryController(mockService);
+
+        // Action
+        var result = controller.update(id, new CategoryRequest("Update Food", "Updated Details about Food"));
+        var okResult =result.getBody();
+
+        // Assert
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertInstanceOf(CategoryEntity.class, okResult, "okResult is not an instance of CategoryEntity");
+        Assertions.assertEquals(categoryEntity.getName(), ((CategoryEntity) okResult).getName(), "Name of list is not equal to name of okResult");
+    }
+
+    // Delete
+    @Test
+    public void deleteCategory(){
+        // Arrange
+        Long id = 1L;
+        Mockito.doNothing().when(mockService).delete(id);
+        var controller = new CategoryController(mockService);
+
+        // Action
+        var result = controller.delete(id);
+        var bodyResult = result.getBody();
+        var statusResult = result.getStatusCode().value();
+
+        // Assert
+//        Assertions.assertNotNull(id);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(200, statusResult);
+//        Assertions.assertEquals(400, statusResult);
+    }
 }

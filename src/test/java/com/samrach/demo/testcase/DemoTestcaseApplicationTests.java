@@ -8,7 +8,7 @@ class DemoTestcaseApplicationTests {
 
     @Test
     void contextLoads() {
-
+        System.out.println("Context loaded successfully");
     }
 
 }

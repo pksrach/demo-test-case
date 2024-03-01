@@ -3,9 +3,8 @@ package com.samrach.demo.testcase.controller;
 import com.samrach.demo.testcase.constant.RestApi;
 import com.samrach.demo.testcase.infrastructure.entity.CategoryEntity;
 import com.samrach.demo.testcase.infrastructure.request.category.CategoryRequest;
-import com.samrach.demo.testcase.infrastructure.response.response.CategoryResponse;
-import com.samrach.demo.testcase.persistence.response.ResponseBody;
 import com.samrach.demo.testcase.service.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +56,7 @@ public class CategoryController {
     ) {
         CategoryEntity data = categoryService.create(request);
 
-        return ResponseEntity.ok(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
     @PutMapping("/{id}")
@@ -67,18 +66,18 @@ public class CategoryController {
     ) {
         CategoryEntity data = categoryService.update(id, request);
 
-        return ResponseEntity.ok(data);
+        return ResponseEntity.status(HttpStatus.OK).body(data);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseBody<CategoryResponse> delete(
+    public ResponseEntity<?> delete(
             @PathVariable Long id
     ) {
-        categoryService.delete(id);
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+        }
 
-        return new ResponseBody<>(
-                null,
-                "Category deleted successfully"
-        );
+        categoryService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Delete Success");
     }
 }
