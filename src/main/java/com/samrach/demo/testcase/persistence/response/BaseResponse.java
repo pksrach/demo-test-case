@@ -21,7 +21,5 @@ public class BaseResponse<T> {
     public BaseResponse(String message, HttpStatus status) {
         this.responseEntity = new ResponseEntity<>(new ResponseBody<>(message), status);
     }
-
-
 }
 

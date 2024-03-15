@@ -2,6 +2,7 @@ package com.samrach.demo.testcase.infrastructure.response.response;
 
 import com.samrach.demo.testcase.infrastructure.entity.CategoryEntity;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,5 +25,9 @@ public class CategoryResponse {
         return entities.stream()
                 .map(CategoryResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    public static Page<CategoryResponse> fromEntities(Page<CategoryEntity> entities) {
+        return entities.map(CategoryResponse::fromEntity);
     }
 }

@@ -8,6 +8,8 @@ spring:
     active: dev
   devtools:
     add-properties: false
+    livereload:
+      enabled: false
 
   datasource:
     url: jdbc:postgresql://localhost:5432/demo-test-case
@@ -23,3 +25,7 @@ logging:
   level:
     web: off
     sql: debug
+springdoc:
+  api-docs:
+    enabled: true
+

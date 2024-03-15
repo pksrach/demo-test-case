@@ -3,12 +3,15 @@ package com.samrach.demo.testcase.controller;
 import com.samrach.demo.testcase.constant.RestApi;
 import com.samrach.demo.testcase.infrastructure.entity.CategoryEntity;
 import com.samrach.demo.testcase.infrastructure.request.category.CategoryRequest;
+import com.samrach.demo.testcase.infrastructure.response.response.CategoryResponse;
+import com.samrach.demo.testcase.persistence.response.ResponseBody;
 import com.samrach.demo.testcase.service.CategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,10 +24,17 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> gets() {
-        List<CategoryEntity> data = categoryService.findAll();
+    public ResponseBody<CategoryResponse> gets(
+            Pageable pageable
+    ) {
+        Page<CategoryEntity> data = categoryService.findAll(pageable);
+        Page<CategoryResponse> responses = CategoryResponse.fromEntities(data);
 
-        return ResponseEntity.ok(data);
+
+        return ResponseBody.success(
+                responses,
+                "Categories fetched successfully"
+        );
     }
 
     /*@GetMapping
@@ -35,7 +45,7 @@ public class CategoryController {
                 .map(CategoryResponse::fromEntity)
                 .toList();
 
-        return new ResponseBody<>(
+        return ResponseBody.success(
                 responses,
                 "Categories fetched successfully"
         );
